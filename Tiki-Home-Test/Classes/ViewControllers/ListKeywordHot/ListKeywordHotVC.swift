@@ -43,6 +43,7 @@ extension ListKeywordHotVC:UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"ListKeywordHotCell", for: indexPath) as! ListKeywordHotCell
+        cell.listKeywordHotCellDelegate = self
         let indexColor = indexPath.row % arrColor.count
         cell.setDataForCell(model: items[indexPath.row], color: arrColor[indexColor])
         return cell
@@ -81,18 +82,26 @@ extension ListKeywordHotVC:UICollectionViewDelegateFlowLayout {
 extension ListKeywordHotVC {
     func loadData() {
         self.showLoading()
-        BaseAPIService.shared().getListKeywordHot { [weak self] (result) in
-            self?.hideLoading()
-            switch result {
+        
+        BaseAPIService.shared().getListKeywordHot { (response) in
+            self.hideLoading()
+            
+            switch response {
             case .object(let data):
-                self?.items = data.keywords ?? []
-                self?.collectionView?.reloadData()
+                self.items = data.keywords ?? []
+                self.collectionView?.reloadData()
                 break
             case .error(let error):
                 print(error.message ?? "")
                 break
-                
             }
         }
+    }
+}
+
+// MARK: - ListKeywordHotCellDelegate
+extension ListKeywordHotVC:ListKeywordHotCellDelegate {
+    func didPressKeyword(listKeywordHotCell: ListKeywordHotCell, keyword: String) {
+        print("Did press keyword: \(keyword)")
     }
 }
