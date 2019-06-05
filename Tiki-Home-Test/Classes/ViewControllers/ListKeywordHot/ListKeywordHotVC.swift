@@ -28,7 +28,6 @@ class ListKeywordHotVC: UIViewController {
         super.viewDidLoad()
         loadData()
     }
-
 }
 
 // MARK: - UICollectionViewDataSource
@@ -47,6 +46,33 @@ extension ListKeywordHotVC:UICollectionViewDataSource {
         let indexColor = indexPath.row % arrColor.count
         cell.setDataForCell(model: items[indexPath.row], color: arrColor[indexColor])
         return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension ListKeywordHotVC:UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let keyword = items[indexPath.row]
+        
+        let sizeLable = keyword.keyword?.size(withAttributes:[.font: UIFont.systemFont(ofSize:14.0)])
+        
+        let width:CGFloat = max(200, sizeLable!.width/2 + 70)
+        let heigh = collectionView.frame.size.height
+        
+        return CGSize(width: width, height: heigh)
     }
 }
 
