@@ -69,7 +69,7 @@ extension ListKeywordHotVC:UICollectionViewDelegateFlowLayout {
         
         let sizeLable = keyword.keyword?.size(withAttributes:[.font: UIFont.systemFont(ofSize:14.0)])
         
-        let width:CGFloat = max(200, sizeLable!.width/2 + 70)
+        let width:CGFloat = max(130, sizeLable!.width/2 + 70)
         let heigh = collectionView.frame.size.height
         
         return CGSize(width: width, height: heigh)
